@@ -1,0 +1,527 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Cofee Danni — Hangat, Segar, Autentik</title>
+  <meta name="description" content="Kopi Nusantara: nikmati espresso, cappuccino, latte, dan seduhan kopi terbaik dengan suasana hangat dan ramah." />
+  <style>
+    :root {
+      /* 3–5 Colors */
+      --color-primary: #6b4423; /* coffee brown */
+      --color-accent: #2f855a;  /* sage green */
+      --color-bg: #f9f7f4;      /* off-white */
+      --color-fg: #111827;      /* near-black */
+      --color-muted: #6b7280;   /* slate gray */
+    }
+
+    /* Base reset */
+    *, *::before, *::after { box-sizing: border-box; }
+    html, body { height: 100%; }
+    body {
+      margin: 0;
+      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji";
+      line-height: 1.6;
+      color: var(--color-fg);
+      background: var(--color-bg);
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+    h1, h2, h3 {
+      font-family: ui-serif, Georgia, Cambria, "Times New Roman", Times, serif;
+      line-height: 1.3;
+      margin: 0 0 .5rem;
+      color: var(--color-fg);
+    }
+    p { margin: 0 0 1rem; color: var(--color-muted); }
+    img { max-width: 100%; height: auto; display: block; }
+    a { color: inherit; text-decoration: none; }
+    .container { width: 100%; max-width: 1100px; padding: 0 1rem; margin: 0 auto; }
+
+    /* Accessibility */
+    .skip-link {
+      position: absolute; left: -9999px; top: auto; width: 1px; height: 1px; overflow: hidden;
+    }
+    .skip-link:focus {
+      position: fixed; left: 1rem; top: 1rem; width: auto; height: auto; padding: .5rem .75rem;
+      background: var(--color-accent); color: white; border-radius: .375rem; z-index: 1000;
+      box-shadow: 0 2px 8px rgba(0,0,0,.15);
+    }
+    :focus-visible { outline: 3px solid var(--color-accent); outline-offset: 2px; }
+
+    /* Header */
+    .site-header {
+      position: sticky; top: 0; z-index: 50;
+      background: rgba(249, 247, 244, 0.9);
+      backdrop-filter: blur(8px);
+      border-bottom: 1px solid rgba(17, 24, 39, 0.06);
+    }
+    .nav {
+      display: flex; align-items: center; justify-content: space-between; gap: 1rem;
+      padding: .75rem 0;
+    }
+    .brand { display: flex; align-items: center; gap: .5rem; font-weight: 700; }
+    .brand-mark {
+      width: 32px; height: 32px; border-radius: 50%;
+      background: var(--color-primary);
+      display: inline-flex; align-items: center; justify-content: center;
+      color: white; font-size: .9rem;
+    }
+    .nav-links { display: none; gap: 1rem; }
+    .nav-links a { color: var(--color-fg); font-weight: 500; }
+    .cta { display: none; }
+
+    /* Buttons */
+    .btn {
+      display: inline-flex; align-items: center; justify-content: center;
+      padding: .625rem 1rem; border-radius: .5rem; border: 1px solid transparent;
+      font-weight: 600; cursor: pointer;
+      transition: transform .06s ease, box-shadow .2s ease, background-color .2s ease, color .2s ease, border-color .2s ease;
+    }
+    .btn:active { transform: translateY(1px); }
+    .btn-primary { background: var(--color-primary); color: #fff; }
+    .btn-primary:hover { box-shadow: 0 6px 18px rgba(107, 68, 35, .25); }
+    .btn-ghost { background: transparent; color: var(--color-primary); border-color: var(--color-primary); }
+    .btn-ghost:hover { background: rgba(107, 68, 35, .08); }
+
+    /* Hero */
+    .hero { padding: 2rem 0 2.5rem; }
+    .hero-grid { display: grid; gap: 1.5rem; }
+    .eyebrow {
+      display: inline-block; padding: .25rem .5rem; border-radius: 999px;
+      background: rgba(186, 122, 4, 0.1); color: var(--color-accent);
+      font-weight: 700; font-size: .8rem; letter-spacing: .02em; margin-bottom: .75rem;
+    }
+    .hero h1 { font-size: 2rem; }
+    .hero p.lead { font-size: 1rem; color: var(--color-muted); }
+    .hero-cta { display: flex; gap: .75rem; flex-wrap: wrap; margin-top: 1rem; }
+    .hero-media {
+      border-radius: .75rem; overflow: hidden; border: 1px solid rgba(17, 24, 39, 0.06);
+      background: #fff;
+    }
+
+    /* Section */
+    .section { padding: 2.5rem 0; }
+    .section-header { margin-bottom: 1.25rem; }
+    .section-header p { max-width: 56ch; }
+
+    /* Menu grid */
+    .grid { display: grid; gap: 1rem; }
+    .card {
+      background: #fff; border: 1px solid rgba(17, 24, 39, 0.06);
+      border-radius: .75rem; overflow: hidden;
+      display: flex; flex-direction: column;
+      transition: transform .12s ease, box-shadow .2s ease;
+    }
+    .card:hover { transform: translateY(-2px); box-shadow: 0 10px 24px rgba(0,0,0,.08); }
+    .card-body { padding: 1rem; }
+    .price { font-weight: 700; color: var(--color-fg); }
+    .muted { color: var(--color-muted); }
+
+    /* About */
+    .about { background: #fff; border: 1px solid rgba(17, 24, 39, 0.06); border-radius: .75rem; overflow: hidden; }
+
+    /* Testimonials */
+    .quote {
+      position: relative; padding: 1rem; background: #fff; border: 1px solid rgba(17, 24, 39, 0.06); border-radius: .75rem;
+    }
+    .quote::before {
+      content: "“"; position: absolute; left: .5rem; top: .25rem; font-size: 2rem; color: rgba(107,68,35,.25);
+    }
+
+    /* Footer */
+    .site-footer { border-top: 1px solid rgba(17, 24, 39, 0.06); padding: 1.5rem 0; }
+    .footer-grid { display: grid; gap: 1rem; }
+    .small { font-size: .9rem; }
+
+    /* Responsive */
+    @media (min-width: 768px) {
+      .nav-links { display: inline-flex; }
+      .cta { display: inline-flex; }
+      .hero { padding: 3rem 0 3.5rem; }
+      .hero-grid { grid-template-columns: 1.1fr .9fr; align-items: center; gap: 2rem; }
+      .hero h1 { font-size: 2.5rem; }
+      .hero p.lead { font-size: 1.125rem; }
+      .grid-3 { grid-template-columns: repeat(3, 1fr); }
+      .grid-2 { grid-template-columns: repeat(2, 1fr); }
+      .footer-grid { grid-template-columns: 1.2fr .8fr 1fr; align-items: start; }
+    }
+
+    .site-header .brand img {
+        height: 120px; /* kecilkan tinggi logo */
+        width: auto;  /* biar proporsional */
+    }
+  </style>
+</head>
+<body>
+  <a href="#main" class="skip-link">Lewati ke konten</a>
+
+  <header class="site-header" role="banner">
+    <div class="container">
+      <nav class="nav" aria-label="Navigasi utama">
+        <a href="#" class="brand">
+            <img src="logo.png">
+        </a>
+        <div class="nav-links" role="navigation">
+          <a href="#menu">Menu</a>
+          <a href="#tentang">Tentang</a>
+          <a href="#testimoni">Testimoni</a>
+          <a href="#kontak">Kontak</a>
+        </div>
+        <a href="#menu" class="btn btn-primary cta">Pesan Sekarang</a>
+      </nav>
+    </div>
+  </header>
+
+    <section class="hero">
+        <div class="container hero-grid">
+            <div>
+                <span class="eyebrow">Seduhan Harian Terbaik</span>
+                <h1>Nikmati Kopi Hangat, Aroma Autentik, dan Pelayanan Ramah</h1>
+                <p class="lead">Dari biji pilihan nusantara, kami meracik espresso, cappuccino, hingga cold brew yang siap menemani momenmu—pagi hingga malam.</p>
+                <div class="hero-cta">
+                    <a class="btn btn-primary" href="#menu" aria-label="Lihat menu kopi">Lihat Menu</a>
+                    <a class="btn btn-ghost" href="#tentang" aria-label="Pelajari tentang kami">Tentang Kami</a>
+                </div>
+            </div>
+            
+            <!-- Hero Image -->
+             <div class="hero-media-shadow" aria-hidden="true">
+                <img src="https://sdmntpraustraliaeast.oaiusercontent.com/files/00000000-c5b8-61fa-98d7-56b66219930c/raw?se=2025-10-01T09%3A15%3A27Z&sp=r&sv=2024-08-04&sr=b&scid=349f7e5c-3b52-5b8c-8088-9f873a33a14c&skoid=b7fc319f-b93c-4fac-ba5f-14fdc3f9209f&sktid=a48cca56-e6da-484e-a814-9c849652bcb3&skt=2025-09-30T23%3A11%3A13Z&ske=2025-10-01T23%3A11%3A13Z&sks=b&skv=2024-08-04&sig=qcAApehD55e%2Bn8lM26rfUio24xVHPpl4nYs9aemQtRs%3D" alt="Barista menuang espresso ke cangkir" />
+            </div>
+        </div>
+    </section>
+
+    <section id="menu" class="section" aria-labelledby="menu-heading">
+      <div class="container">
+        <div class="section-header">
+          <h2 id="menu-heading">Menu Unggulan</h2>
+          <p>Diseduh dari biji kopi terbaik dengan takaran presisi. Pilih favoritmu.</p>
+        </div>
+
+        <div class="grid grid-3">
+          <article class="card">
+            <img src="https://t4.ftcdn.net/jpg/01/27/55/93/360_F_127559370_fphXJj9HD0abPo31ZkHPQKerlNQYoiFK.jpg" alt="Satu shot espresso" />
+            <div class="card-body">
+              <h3>Espresso</h3>
+              <p class="muted">Ekstraksi pekat dengan crema kaya, basis dari banyak minuman kopi.</p>
+              <p class="price">Rp 22.000</p>
+              <div><a class="btn btn-ghost" href="#" aria-label="Tambah Espresso ke keranjang">Tambah</a></div>
+            </div>
+          </article>
+
+          <article class="card">
+            <img src="https://media.istockphoto.com/id/505168330/photo/cup-of-cafe-latte-with-coffee-beans-and-cinnamon-sticks.jpg?s=612x612&w=0&k=20&c=h7v8kAfWOpRapv6hrDwmmB54DqrGQWxlhP_mTeqTQPA=" alt="Cappuccino dengan latte art" />
+            <div class="card-body">
+              <h3>Cappuccino</h3>
+              <p class="muted">Seimbang antara espresso, susu, dan foam lembut.</p>
+              <p class="price">Rp 28.000</p>
+              <div><a class="btn btn-ghost" href="#" aria-label="Tambah Cappuccino ke keranjang">Tambah</a></div>
+            </div>
+          </article>
+
+          <article class="card">
+            <img src="https://5.imimg.com/data5/GN/RG/GLADMIN-10207619/latte.png" alt="Segelas iced latte" />
+            <div class="card-body">
+              <h3>Latte</h3>
+              <p class="muted">Espresso dengan susu lebih banyak—tekstur halus, rasa lembut.</p>
+              <p class="price">Rp 30.000</p>
+              <div><a class="btn btn-ghost" href="#" aria-label="Tambah Latte ke keranjang">Tambah</a></div>
+            </div>
+          </article>
+
+          <article class="card">  
+            <img src="https://diskominfo.jogjaprov.go.id/api/artikel/kopi.jpg" alt="Americano dalam cangkir" />
+            <div class="card-body">
+              <h3>Americano</h3>
+              <p class="muted">Espresso ditambah air panas—rasa lebih ringan, tetap nikmat.</p>
+              <p class="price">Rp 24.000</p>
+              <div><a class="btn btn-ghost" href="#" aria-label="Tambah Americano ke keranjang">Tambah</a></div>
+            </div>
+          </article>
+
+          <article class="card">
+            <img src="https://watermark.lovepik.com/photo/20211122/large/lovepik-fancy-mocha-picture_500716731.jpg" alt="Mocha dengan cokelat" />
+            <div class="card-body">
+              <h3>Mocha</h3>
+              <p class="muted">Perpaduan espresso, cokelat, dan susu—manis dan creamy.</p>
+              <p class="price">Rp 32.000</p>
+              <div><a class="btn btn-ghost" href="#" aria-label="Tambah Mocha ke keranjang">Tambah</a></div>
+            </div>
+          </article>
+
+          <article class="card">
+            <img src="https://media.istockphoto.com/id/1209718260/photo/cold-brew-coffee-with-milk-and-ice-cubes-in-glass.jpg?s=612x612&w=0&k=20&c=ZJRnsNhnEwHPvt6-EsU2dJmNhi2hmdFq-_w56YbR648=" alt="Cold brew dengan es batu" />
+            <div class="card-body">
+              <h3>Cold Brew</h3>
+              <p class="muted">Seduhan dingin 12 jam—rasa lebih halus dan rendah asam.</p>
+              <p class="price">Rp 34.000</p>
+              <div><a class="btn btn-ghost" href="#" aria-label="Tambah Cold Brew ke keranjang">Tambah</a></div>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+ 
+    <section id="tentang" class="section" aria-labelledby="about-heading">
+      <div class="container">
+        <div class="section-header">
+          <h2 id="about-heading">Tentang Kami</h2>
+          <p>Kopi Nusantara terinspirasi dari kekayaan rasa berbagai daerah di Indonesia.</p>
+        </div>
+        <div class="about">
+          <div class="grid grid-2" style="gap:0;">
+            <div style="min-height: 100%;"><img src="capucino.webp" alt="Biji kopi yang baru disangrai" /></div>
+            <div class="card-body">
+              <h3>Dipilih, Disangrai, Diseduh dengan Hati</h3>
+              <p>Kami bekerja sama dengan petani lokal, memastikan proses sangrai tepat, dan menyajikan kopi segar setiap hari. Misi kami sederhana: menghadirkan momen hangat di setiap cangkir.</p>
+              <ul class="muted" style="padding-left:1.1rem; margin:0;">
+                <li>Aroma dan rasa otentik</li>
+                <li>Bijian pilihan dari berbagai daerah</li>
+                <li>Ramah lingkungan & berkelanjutan</li>
+              </ul>
+              <div style="margin-top:1rem;">
+                <a class="btn btn-primary" href="#kontak">Kunjungi Kami</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="testimoni" class="section" aria-labelledby="testi-heading">
+  <div class="container">
+    <div class="section-header">
+      <h2 id="testi-heading">Apa Kata Mereka</h2>
+      <p>Pengalaman pelanggan yang jujur tentang seduhan kami.</p>
+    </div>
+
+    <!-- Carousel wrapper -->
+    <div class="carousel-wrapper">
+      <div class="carousel">
+        <blockquote class="quote">
+          <p>Rasa kopinya konsisten dan harum. Tempatnya nyaman untuk kerja!</p>
+          <footer class="small muted">— Sinta, Freelancer</footer>
+        </blockquote>
+        <blockquote class="quote">
+          <p>Favorit saya cold brew-nya. Halus, segar, dan pas manisnya.</p>
+          <footer class="small muted">— Rudi, Desainer</footer>
+        </blockquote>
+        <blockquote class="quote">
+          <p>Baristanya ramah dan latte art-nya selalu keren. Rekomen!</p>
+          <footer class="small muted">— Nadia, Mahasiswa</footer>
+        </blockquote>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+/* Wrapper agar tidak meluber */
+.carousel-wrapper {
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch;
+}
+
+/* Isi carousel */
+.carousel {
+  display: flex;
+  gap: 1.5rem;
+  padding: 1rem 0;
+}
+
+/* Setiap item */
+.carousel blockquote {
+  flex: 0 0 80%; /* bisa disesuaikan (80% lebar container) */
+  scroll-snap-align: start;
+  background: #fff;
+  border: 1px solid #ddd;
+  border-radius: .5rem;
+  padding: 1.5rem;
+  box-shadow: 0 2px 6px rgba(0,0,0,.1);
+}
+</style>
+
+    <section id="kontak" class="section" aria-labelledby="contact-heading">
+      <div class="container">
+        <div class="section-header">
+          <h2 id="contact-heading">Kontak & Lokasi</h2>
+          <p>Kunjungi kedai kami atau hubungi untuk pemesanan acara.</p>
+        </div>
+        <div class="grid grid-2">
+          <div class="card">
+            <div class="card-body">
+              <h3>Alamat</h3>
+              <p>Jl. Mutihan, Mutihan, Gantiwarno, Klaten</p>
+              <p class="muted">Buka: 08.00 - 22.00 WIB</p>
+              <div style="margin-top:.75rem;">
+                <a class="btn btn-ghost" href="#" aria-label="Telepon Kopi Danni">Telepon</a>
+                <a class="btn btn-primary" href="#" aria-label="Email Kopi Danni">Email</a>
+              </div>
+            </div>
+          </div>
+          <div class="card" aria-hidden="true">
+            <img src="https://png.pngtree.com/background/20250131/original/pngtree-abstract-blur-coffee-shop-or-cafe-restaurant-interior-picture-image_15505702.jpg" alt="Interior kedai kopi" />
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer" role="contentinfo">
+  <style>
+    .site-footer {
+      background: #2c1810; /* coklat gelap khas kopi */
+      color: #eee;
+      padding: 2rem 1rem;
+      margin-top: 3rem;
+    }
+
+    .footer-grid {
+      display: grid;
+      grid-template-columns: 1fr auto 1fr;
+      gap: 2rem;
+      align-items: center;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: .5rem;
+      font-size: 1.25rem;
+      font-weight: bold;
+    }
+
+    .brand-mark {
+      font-size: 1.5rem;
+      color: #c49a6c; /* aksen emas kopi */
+    }
+
+    .tagline {
+      margin-top: .5rem;
+      font-style: italic;
+    }
+
+    .footer-links {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      display: grid;
+      gap: .25rem;
+      text-align: center;
+    }
+
+    .footer-links a {
+      color: #eee;
+      text-decoration: none;
+      transition: color 0.3s ease;
+    }
+    .footer-links a:hover {
+      color: #c49a6c;
+    }
+
+    .footer-copy {
+      text-align: right;
+      font-size: .85rem;
+    }
+
+    .small.muted {
+      color: #aaa;
+    }
+
+    /* Responsif */
+    @media (max-width: 768px) {
+      .footer-grid {
+        grid-template-columns: 1fr;
+        text-align: center;
+      }
+      .footer-copy {
+        text-align: center;
+      }
+    }
+  </style>
+
+  <div class="container footer-grid">
+    <!-- Brand & tagline -->
+    <div class="brand-box">
+  <div class="brand">
+    <span class="brand-mark" aria-hidden="true">☕</span>
+    <span class="brand-name">Coffee <span>Danni</span></span>
+  </div>
+  <p class="small muted tagline">Hangat • Segar • Autentik</p>
+</div>
+
+<style>
+  .brand-box {
+    text-align: center;
+    margin: 1rem 0;
+  }
+
+  .brand {
+    display: inline-flex;
+    align-items: center;
+    gap: .5rem;
+    font-family: "Poppins", sans-serif;
+    font-size: 2rem;
+    font-weight: 700;
+    color: #fff;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+
+  .brand-mark {
+    font-size: 2.5rem;
+    color: #c49a6c; /* aksen emas kopi */
+    animation: bounce 2s infinite;
+  }
+
+  .brand-name span {
+    color: #c49a6c; /* highlight nama */
+  }
+
+  .tagline {
+    margin-top: .5rem;
+    font-size: 0.9rem;
+    color: #ddd;
+    font-style: italic;
+    letter-spacing: 0.5px;
+  }
+
+  /* Animasi sederhana */
+  @keyframes bounce {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-5px); }
+  }
+</style>
+
+    <!-- Navigasi footer -->
+    <nav aria-label="Footer">
+      <ul class="footer-links">
+        <li><a href="#menu">Menu</a></li>
+        <li><a href="#tentang">Tentang</a></li>
+        <li><a href="#testimoni">Testimoni</a></li>
+        <li><a href="#kontak">Kontak</a></li>
+      </ul>
+    </nav>
+
+    <!-- Copyright -->
+    <div class="footer-copy">
+      <p class="small muted">© <span id="year"></span> Coffee Danni. Semua hak dilindungi.</p>
+      <p class="small muted">Developer by <strong>Ana Zardani</strong></p>
+    </div>
+  </div>
+
+  <script>
+    // otomatis update tahun
+    document.getElementById("year").textContent = new Date().getFullYear();
+  </script>
+</footer>
+
+
+  <script>
+    // Set current year without affecting performance/accessibility
+    document.getElementById('year').textContent = new Date().getFullYear();
+  </script>
+</body>
+</html>
